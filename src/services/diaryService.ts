@@ -130,3 +130,20 @@ export async function getFavoriteEntries(userId: string): Promise<DiaryEntry[]> 
     ...doc.data(),
   })) as DiaryEntry[];
 }
+
+export function subscribeToFavoriteEntries(
+  userId: string,
+  callback: (entries: DiaryEntry[]) => void
+) {
+  return getCollection()
+    .where('userId', '==', userId)
+    .where('isFavorite', '==', true)
+    .orderBy('entryDate', 'desc')
+    .onSnapshot((snapshot) => {
+      const entries = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      })) as DiaryEntry[];
+      callback(entries);
+    });
+}

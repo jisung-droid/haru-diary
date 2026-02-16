@@ -1,12 +1,8 @@
-import { Tabs, useRouter } from 'expo-router';
-import { Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { Tabs } from 'expo-router';
+import { Text, StyleSheet } from 'react-native';
 import { Colors } from '../../src/constants/colors';
-import { useAuth } from '../../src/hooks/useAuth';
 
 export default function TabLayout() {
-  const { signOut } = useAuth();
-  const router = useRouter();
-
   return (
     <Tabs
       screenOptions={{
@@ -16,11 +12,6 @@ export default function TabLayout() {
         tabBarLabelStyle: styles.tabLabel,
         headerStyle: styles.header,
         headerTitleStyle: styles.headerTitle,
-        headerRight: () => (
-          <TouchableOpacity onPress={signOut} style={styles.headerButton}>
-            <Text style={styles.headerButtonText}>Sign Out</Text>
-          </TouchableOpacity>
-        ),
       }}
     >
       <Tabs.Screen
@@ -32,6 +23,20 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="search"
+        options={{
+          title: 'Search',
+          tabBarIcon: ({ color }) => <Text style={{ fontSize: 20, color }}>🔍</Text>,
+        }}
+      />
+      <Tabs.Screen
+        name="favorites"
+        options={{
+          title: 'Favorites',
+          tabBarIcon: ({ color }) => <Text style={{ fontSize: 20, color }}>⭐</Text>,
+        }}
+      />
+      <Tabs.Screen
         name="calendar"
         options={{
           title: 'Calendar',
@@ -39,10 +44,16 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="settings"
+        options={{
+          title: 'Settings',
+          tabBarIcon: ({ color }) => <Text style={{ fontSize: 20, color }}>⚙️</Text>,
+        }}
+      />
+      <Tabs.Screen
         name="statistics"
         options={{
-          title: 'Statistics',
-          tabBarIcon: ({ color }) => <Text style={{ fontSize: 20, color }}>📊</Text>,
+          href: null,
         }}
       />
     </Tabs>
@@ -71,13 +82,5 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '700',
     color: Colors.text,
-  },
-  headerButton: {
-    marginRight: 16,
-  },
-  headerButtonText: {
-    color: Colors.primary,
-    fontSize: 14,
-    fontWeight: '600',
   },
 });
