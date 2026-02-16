@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "Daily Diary",
-    "slug": "daily-diary",
+    "name": "Haru Diary",
+    "slug": "haru-diary",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
-    "scheme": "daily-diary",
+    "scheme": "haru-diary",
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
@@ -15,7 +15,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.dailydiary.app",
+      "bundleIdentifier": "com.harudiary.app",
       "googleServicesFile": "./firebase/GoogleService-Info.plist",
       "infoPlist": {
         "NSMicrophoneUsageDescription": "This app uses the microphone to record audio diary entries.",
@@ -24,7 +24,7 @@
       }
     },
     "android": {
-      "package": "com.dailydiary.app",
+      "package": "com.harudiary.app",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -48,14 +48,14 @@
       [
         "expo-audio",
         {
-          "microphonePermission": "Allow Daily Diary to access your microphone for audio recording."
+          "microphonePermission": "Allow Haru Diary to access your microphone for audio recording."
         }
       ],
       [
         "expo-image-picker",
         {
-          "photosPermission": "Allow Daily Diary to access your photos to attach images to diary entries.",
-          "cameraPermission": "Allow Daily Diary to use the camera to take photos for diary entries."
+          "photosPermission": "Allow Haru Diary to access your photos to attach images to diary entries.",
+          "cameraPermission": "Allow Haru Diary to use the camera to take photos for diary entries."
         }
       ]
     ]

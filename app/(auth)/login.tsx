@@ -10,7 +10,7 @@ export default function LoginScreen() {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.emoji}>📔</Text>
-        <Text style={styles.title}>Daily Diary</Text>
+        <Text style={styles.title}>Haru Diary</Text>
         <Text style={styles.subtitle}>Record your precious moments every day</Text>
       </View>
 

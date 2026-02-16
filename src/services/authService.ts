@@ -10,8 +10,8 @@ GoogleSignin.configure({
 const naverLoginConfig = {
   consumerKey: 'YOUR_NAVER_CONSUMER_KEY',
   consumerSecret: 'YOUR_NAVER_CONSUMER_SECRET',
-  appName: 'Daily Diary',
-  serviceUrlSchemeIOS: 'dailydiary',
+  appName: 'Haru Diary',
+  serviceUrlSchemeIOS: 'harudiary',
 };
 
 export async function signInWithGoogle() {

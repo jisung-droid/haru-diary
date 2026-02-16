@@ -28,7 +28,7 @@ export default function TabLayout() {
         options={{
           title: 'Timeline',
           tabBarIcon: ({ color }) => <Text style={{ fontSize: 20, color }}>📝</Text>,
-          headerTitle: 'Daily Diary',
+          headerTitle: 'Haru Diary',
         }}
       />
       <Tabs.Screen
