@@ -11,6 +11,7 @@ import {
   Platform,
 } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Colors } from '../../src/constants/colors';
 import { MOOD_EMOJIS } from '../../src/constants/moods';
 import { useDiaryEntry } from '../../src/hooks/useDiaryEntry';
@@ -31,6 +32,7 @@ export default function EntryDetailScreen() {
   const router = useRouter();
   const { user } = useAuthContext();
   const { id } = useLocalSearchParams<{ id: string }>();
+  const insets = useSafeAreaInsets();
   const { entry, loading } = useDiaryEntry(id || null);
 
   const [editing, setEditing] = useState(false);
@@ -136,14 +138,22 @@ export default function EntryDetailScreen() {
       style={styles.flex}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
-      <View style={styles.header}>
+      <View style={[styles.header, { paddingTop: insets.top + 8 }]}>
         <TouchableOpacity onPress={() => router.back()}>
           <Text style={styles.back}>← Back</Text>
         </TouchableOpacity>
         <View style={styles.headerActions}>
           {editing ? (
             <>
-              <TouchableOpacity onPress={() => setEditing(false)}>
+              <TouchableOpacity onPress={() => {
+                setEditing(false);
+                setTitle(entry.title);
+                setContent(entry.content);
+                setMood(entry.mood);
+                setStickers(entry.stickers);
+                setChecklist(entry.checklistItems);
+                setImageUris(entry.imageUrls || []);
+              }}>
                 <Text style={styles.cancelEdit}>Cancel</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={handleSave} disabled={saving}>
@@ -254,7 +264,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 16,
-    paddingTop: 56,
     paddingBottom: 12,
     backgroundColor: Colors.surface,
     borderBottomWidth: 1,

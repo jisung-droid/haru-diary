@@ -11,6 +11,7 @@ import {
   Platform,
 } from 'react-native';
 import { useRouter } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Colors } from '../../src/constants/colors';
 import { useAuthContext } from '../../src/contexts/AuthContext';
 import { createEntry, updateEntry } from '../../src/services/diaryService';
@@ -28,6 +29,7 @@ import { ImagePicker } from '../../src/components/diary/ImagePicker';
 export default function NewEntryScreen() {
   const router = useRouter();
   const { user } = useAuthContext();
+  const insets = useSafeAreaInsets();
   const { recordEntry } = useStreak();
   const { transcribe, transcribing } = useSTT();
 
@@ -103,7 +105,7 @@ export default function NewEntryScreen() {
       style={styles.flex}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
-      <View style={styles.header}>
+      <View style={[styles.header, { paddingTop: insets.top + 8 }]}>
         <TouchableOpacity onPress={() => router.back()}>
           <Text style={styles.cancel}>Cancel</Text>
         </TouchableOpacity>
@@ -159,7 +161,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 16,
-    paddingTop: 56,
     paddingBottom: 12,
     backgroundColor: Colors.surface,
     borderBottomWidth: 1,

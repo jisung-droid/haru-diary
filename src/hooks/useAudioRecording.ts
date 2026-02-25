@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import { useAudioRecorder, AudioModule, RecordingPresets } from 'expo-audio';
+import { AUDIO_CONFIG } from '../constants/audio';
 
 export function useAudioRecording() {
   const recorder = useAudioRecorder(RecordingPresets.HIGH_QUALITY);
@@ -7,22 +8,7 @@ export function useAudioRecording() {
   const [recordingUri, setRecordingUri] = useState<string | null>(null);
   const [durationMs, setDurationMs] = useState(0);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-
-  const startRecording = async () => {
-    const status = await AudioModule.requestRecordingPermissionsAsync();
-    if (!status.granted) {
-      throw new Error('Microphone permission not granted');
-    }
-
-    setRecordingUri(null);
-    setDurationMs(0);
-    recorder.record();
-    setIsRecording(true);
-
-    intervalRef.current = setInterval(() => {
-      setDurationMs((prev) => prev + 1000);
-    }, 1000);
-  };
+  const durationRef = useRef(0);
 
   const stopRecording = async () => {
     if (intervalRef.current) {
@@ -33,12 +19,34 @@ export function useAudioRecording() {
     await recorder.stop();
     setIsRecording(false);
     setRecordingUri(recorder.uri);
-    return { uri: recorder.uri, durationMs };
+    return { uri: recorder.uri, durationMs: durationRef.current };
+  };
+
+  const startRecording = async () => {
+    const status = await AudioModule.requestRecordingPermissionsAsync();
+    if (!status.granted) {
+      throw new Error('Microphone permission not granted');
+    }
+
+    setRecordingUri(null);
+    setDurationMs(0);
+    durationRef.current = 0;
+    recorder.record();
+    setIsRecording(true);
+
+    intervalRef.current = setInterval(() => {
+      durationRef.current += 1000;
+      setDurationMs(durationRef.current);
+      if (durationRef.current >= AUDIO_CONFIG.MAX_RECORDING_DURATION_MS) {
+        stopRecording();
+      }
+    }, 1000);
   };
 
   const resetRecording = () => {
     setRecordingUri(null);
     setDurationMs(0);
+    durationRef.current = 0;
   };
 
   return {

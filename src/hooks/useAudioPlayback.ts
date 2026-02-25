@@ -11,8 +11,9 @@ export function useAudioPlayback(audioUrl: string | null) {
     if (!player) return;
 
     const interval = setInterval(() => {
-      if (player.playing) {
-        setPosition(player.currentTime * 1000);
+      setIsPlaying(player.playing);
+      setPosition(player.currentTime * 1000);
+      if (player.duration > 0) {
         setDuration(player.duration * 1000);
       }
     }, 500);
@@ -22,6 +23,9 @@ export function useAudioPlayback(audioUrl: string | null) {
 
   const play = async () => {
     if (!player) return;
+    if (player.duration > 0 && player.currentTime >= player.duration) {
+      player.seekTo(0);
+    }
     player.play();
     setIsPlaying(true);
   };
